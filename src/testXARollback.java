@@ -7,7 +7,7 @@ import org.postgresql.*;
 import org.postgresql.xa.*;
 import org.postgresql.Driver;
 
-public class testXA {
+public class testXARollback {
   
   // Create variables for the connection string.
   private static String prefix = "jdbc:postgresql://";
@@ -55,9 +55,10 @@ public class testXA {
          PreparedStatement pstmt = util.insertTestTable(con, 1, xid.toString()); 
          pstmt.executeUpdate();
 
-         // Commit the transaction.
+         // Rollback the transaction.
          xaRes.end(xid,XAResource.TMSUCCESS);
-         xaRes.commit(xid,true);
+         System.out.println("Rollbacking xid: [" + xid.toString() + "]");
+         xaRes.rollback(xid);
 
          // trying to do recover here
          try {
@@ -71,6 +72,10 @@ public class testXA {
              e1.printStackTrace();
            }
          }
+
+         // a try if it's possible to run twice rollback on the same xid
+         System.out.println("Second rollback of xid: [" + xid.toString() + "]");
+         xaRes.rollback(xid);
 
          // Cleanup.
          con.close();

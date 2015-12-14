@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.Random;
 import javax.transaction.xa.*;
 import javax.sql.*;
-import com.microsoft.sqlserver.jdbc.*;
 
 class XidImpl implements Xid {
 
