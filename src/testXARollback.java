@@ -73,9 +73,16 @@ public class testXARollback {
            }
          }
 
-         // a try if it's possible to run twice rollback on the same xid
-         System.out.println("Second rollback of xid: [" + xid.toString() + "]");
-         xaRes.rollback(xid);
+         try {
+           // a try if it's possible to run twice rollback on the same xid
+           System.out.println("Second rollback of xid: [" + xid.toString() + "]");
+           xaRes.rollback(xid);
+         } catch (XAException xae) {
+           if(xae.errorCode == XAException.XAER_NOTA) 
+             System.out.println("Second rollback of xid: [" + xid.toString() + "] failed with exception: " + xae.getMessage() + " with correct error code " + xae.errorCode);
+           else
+           throw xae;  
+         }
 
          // Cleanup.
          con.close();
@@ -84,8 +91,9 @@ public class testXARollback {
          con = util.getConnection();
          try {
            ResultSet rs = util.selectTestTable(con);
-           rs.next();
-           System.out.println("Read -> xid = " + rs.getString(2));
+           boolean isResultSet = rs.next();
+           if(!isResultSet)
+             System.out.println("[OK] There is no data in test table as txn was rollbacked");
            rs.close();
          } finally {
            if(con != null) con.close();
