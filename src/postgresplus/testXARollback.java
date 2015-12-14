@@ -1,21 +1,24 @@
-package postgresql;
+package postgresplus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import util.*;
+import util.PostgresPlusXAConnectionUtil;
+import util.XAConnectionUtil;
+import util.XidImpl;
 
-public class testXA {
+public class testXARollback {
 
     public static void main(String[] args) throws Exception {
 
         try {
-            XAConnectionUtil util = PostgreSQLXAConnectionUtil.instance();
+            XAConnectionUtil util = PostgresPlusXAConnectionUtil.instance();
             System.out.println("Test is going to connect with following data: "
                     + util.getConnectionData().toString());
 
@@ -42,9 +45,10 @@ public class testXA {
                     xid.toString());
             pstmt.executeUpdate();
 
-            // Commit the transaction.
+            // Rollback the transaction.
             xaRes.end(xid, XAResource.TMSUCCESS);
-            xaRes.commit(xid, true);
+            System.out.println("Rollbacking xid: [" + xid.toString() + "]");
+            xaRes.rollback(xid);
 
             // trying to do recover here
             try {
@@ -58,6 +62,19 @@ public class testXA {
                 }
             }
 
+            try {
+                // a try if it's possible to run twice rollback on the same xid
+                System.out.println("Second rollback of xid: [" + xid.toString()
+                        + "]");
+                xaRes.rollback(xid);
+            } catch (XAException xae) {
+                if (xae.errorCode == XAException.XAER_NOTA)
+                    System.out.println("[OK] Second rollback failed with exception: " + xae.getMessage()
+                            + " with correct error code " + xae.errorCode);
+                else
+                    throw xae;
+            }
+
             // Cleanup.
             con.close();
             xaCon.close();
@@ -65,8 +82,10 @@ public class testXA {
             con = util.getConnection();
             try {
                 ResultSet rs = util.selectTestTable(con);
-                rs.next();
-                System.out.println("Read -> xid = " + rs.getString(2));
+                boolean isResultSet = rs.next();
+                if (!isResultSet)
+                    System.out
+                            .println("[OK] There is no data in test table as txn was rollbacked");
                 rs.close();
             } finally {
                 if (con != null)

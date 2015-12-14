@@ -1,4 +1,4 @@
-package postgresql;
+package postgresplus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-
 import util.*;
 
 public class testXA {
@@ -15,7 +14,7 @@ public class testXA {
     public static void main(String[] args) throws Exception {
 
         try {
-            XAConnectionUtil util = PostgreSQLXAConnectionUtil.instance();
+            XAConnectionUtil util = PostgresPlusXAConnectionUtil.instance();
             System.out.println("Test is going to connect with following data: "
                     + util.getConnectionData().toString());
 

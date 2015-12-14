@@ -8,6 +8,8 @@ public class ConnectionData {
     public static String PASSWORD_PARAM  = "password";
 
     private static String postgresqlUrlPrefix = "jdbc:postgresql://";
+    private static String mssqlUrlPrefix = "jdbc:sqlserver://";
+    private static String postgresPlusPrefix = "jdbc:edb://";
     
     private final String url, user, pass, db, server, port;
 
@@ -95,6 +97,17 @@ public class ConnectionData {
 
         public ConnectionData postgresql() {
             String connectionUrl = postgresqlUrlPrefix + server + ":" + port  + "/" + db;
+            return new ConnectionData(connectionUrl, this);
+        }
+
+        public ConnectionData postgresplus() {
+            String connectionUrl = postgresPlusPrefix + server + ":" + port  + "/" + db;
+            return new ConnectionData(connectionUrl, this);
+        }
+
+        public ConnectionData mssql() {
+            String connectionUrl = mssqlUrlPrefix +  server + ":" + port
+                    + ";databaseName=" + db + ";user=" + user + ";password=" + pass;
             return new ConnectionData(connectionUrl, this);
         }
     }

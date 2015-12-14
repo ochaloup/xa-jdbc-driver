@@ -26,6 +26,7 @@ public abstract class XAConnectionUtil {
         try {
             synchronized (XAConnectionUtil.class) {
                 if (!isClassLoaded(getDriverClassName())) {
+                    System.out.println("Loading driver class " + getDriverClassName());
                     Class.forName(getDriverClassName());
                 }
             }

@@ -4,5 +4,7 @@
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="lib" path="lib/postgresql-9.4-1203.jdbc42.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="lib/edb-jdbc17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

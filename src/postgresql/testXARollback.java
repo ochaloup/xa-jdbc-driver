@@ -69,10 +69,8 @@ public class testXARollback {
                 xaRes.rollback(xid);
             } catch (XAException xae) {
                 if (xae.errorCode == XAException.XAER_NOTA)
-                    System.out.println("Second rollback of xid: ["
-                            + xid.toString() + "] failed with exception: "
-                            + xae.getMessage() + " with correct error code "
-                            + xae.errorCode);
+                    System.out.println("[OK ]Second rollback failed with exception: " + xae.getMessage()
+                            + " with correct error code " + xae.errorCode);
                 else
                     throw xae;
             }
