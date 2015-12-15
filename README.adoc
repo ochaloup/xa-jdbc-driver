@@ -1,30 +1,30 @@
 
-= Standalone test of XA transactions from PostgreSQL driver
+= Standalone test of XA transactions behaviour of jdbc driver
 
 == Sources
 
 Inspired by example on M$ pages:
 http://msdn.microsoft.com/en-us/library/aa342335.aspx
 
-JDBC driver downloaded from:
-https://jdbc.postgresql.org/download.html
-
 == Compilation:
 
-`rm -f classes/* && javac -cp lib/*.jar -d classes src/*java`
+```
+LIBS=""; for I in lib/*; do LIBS=$I:$LIBS; done
+rm -rf classes/* && javac -cp $LIBS -d classes src/run/*.java src/util/*.java
+```
 
 == Running:
-`java -cp lib/postgresql-9.4-1203.jdbc42.jar:classes -DserverName=localhost testXA`
+`java -cp ${LIBS}classes -DserverName=localhost -Ddbtype=postgresql run.testXA`
 
 === Possible parameters
 
 Parameters needs to be set before the name name of running class.
-It means `java -cp classes -DserverName=localhost testXA` works but 
+It means `java -cp classes -DserverName=localhost testXA` works but
 `java -cp classes testXA -DserverName=localhost` does not.
 
+ * `-Ddbtype=postgresql`
  * `-DserverName=localhost`
  * `-DportNumber=1433`
  * `-DdatabaseName=crashrec`
  * `-Duser=crashrec`
  * `-Dpassword=crashrec`
-

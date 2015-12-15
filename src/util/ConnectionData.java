@@ -10,8 +10,10 @@ public class ConnectionData {
     private static String postgresqlUrlPrefix = "jdbc:postgresql://";
     private static String mssqlUrlPrefix = "jdbc:sqlserver://";
     private static String postgresPlusPrefix = "jdbc:edb://";
+    private static String oraclePrefix = "jdbc:oracle:thin:@";
     
     private final String url, user, pass, db, server, port;
+    private final DbType dbType;
 
     /**
      * Use method {@link #url()} to instantiate this class.
@@ -23,6 +25,7 @@ public class ConnectionData {
         this.db = builder.db;
         this.server = builder.server;
         this.port = builder.port;
+        this.dbType = builder.dbType;
     }
 
     public String url() {
@@ -53,6 +56,10 @@ public class ConnectionData {
         return Integer.parseInt(port);
     }
 
+    public DbType dbType() {
+        return dbType;
+    }
+
     public String toString() {
         return String.format("jdbc url: '%s', connection props: %s:%s %s/%s", url, server, port, user, pass);
     }
@@ -62,6 +69,7 @@ public class ConnectionData {
         private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
         private String pass = System.getProperty(ConnectionData.PASSWORD_PARAM, "crashrec");
+        private DbType dbType;
 
         public Builder() {
             this.server = System.getProperty(ConnectionData.SERVER_PARAM);
@@ -97,17 +105,26 @@ public class ConnectionData {
 
         public ConnectionData postgresql() {
             String connectionUrl = postgresqlUrlPrefix + server + ":" + port  + "/" + db;
+            this.dbType = DbType.POSTGRESQL;
             return new ConnectionData(connectionUrl, this);
         }
 
         public ConnectionData postgresplus() {
             String connectionUrl = postgresPlusPrefix + server + ":" + port  + "/" + db;
+            this.dbType = DbType.POSTGRESPLUS;
             return new ConnectionData(connectionUrl, this);
         }
 
         public ConnectionData mssql() {
             String connectionUrl = mssqlUrlPrefix +  server + ":" + port
                     + ";databaseName=" + db + ";user=" + user + ";password=" + pass;
+            this.dbType = DbType.MSSQL;
+            return new ConnectionData(connectionUrl, this);
+        }
+
+        public ConnectionData oracle() {
+            String connectionUrl = oraclePrefix +  server + ":" + port + ":" + db;
+            this.dbType = DbType.ORACLE;
             return new ConnectionData(connectionUrl, this);
         }
     }

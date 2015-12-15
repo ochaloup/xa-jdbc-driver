@@ -1,4 +1,4 @@
-package postgresql;
+package run;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public class testXA {
     public static void main(String[] args) throws Exception {
 
         try {
-            XAConnectionUtil util = PostgreSQLXAConnectionUtil.instance();
+            XAConnectionUtil util = FactoryXAConnectionUtil.getInstance();
             System.out.println("Test is going to connect with following data: "
                     + util.getConnectionData().toString());
 

@@ -9,13 +9,17 @@ public class PostgresPlusXAConnectionUtil extends XAConnectionUtil {
     public static String serverNamePostgresPlus94 = "gen-vm001.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "5432";
 
-    public PostgresPlusXAConnectionUtil(ConnectionData data) {
+    private PostgresPlusXAConnectionUtil(ConnectionData data) {
         super(data);
     }
 
+    public static PostgresPlusXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
+        return new PostgresPlusXAConnectionUtil(dataBuilder.postgresplus());
+    }
+
     public static PostgresPlusXAConnectionUtil instance() {
-        ConnectionData conData = new ConnectionData.Builder(serverNamePostgresPlus94, defaultPort).postgresplus();
-        return new PostgresPlusXAConnectionUtil(conData);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgresPlus94, defaultPort);
+        return instance(dataBuilder);
     }
 
     @Override

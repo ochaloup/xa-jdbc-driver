@@ -7,13 +7,21 @@ import org.postgresql.xa.PGXADataSource;
 public class PostgreSQLXAConnectionUtil extends XAConnectionUtil {
     private static final String driverClass = "org.postgresql.Driver";
 
-    public PostgreSQLXAConnectionUtil(ConnectionData data) {
+    public static String serverNamePostgreSQLLocalhost = "localhost";
+    public static String serverNamePostgreSQL93 = "db20.mw.lab.eng.bos.redhat.com";
+    public static String defaultPort = "5432";
+
+    private PostgreSQLXAConnectionUtil(ConnectionData data) {
         super(data);
     }
 
+    public static PostgreSQLXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
+        return new PostgreSQLXAConnectionUtil(dataBuilder.postgresql());
+    }
+
     public static PostgreSQLXAConnectionUtil instance() {
-        ConnectionData conData = new ConnectionData.Builder("localhost", "5432").postgresql();
-        return new PostgreSQLXAConnectionUtil(conData);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgreSQLLocalhost, defaultPort);
+        return instance(dataBuilder);
     }
 
     @Override

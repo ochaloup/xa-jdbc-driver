@@ -1,4 +1,4 @@
-package postgresql;
+package run;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import util.PostgreSQLXAConnectionUtil;
+import util.FactoryXAConnectionUtil;
 import util.XAConnectionUtil;
 import util.XidImpl;
 
@@ -18,7 +18,7 @@ public class testXARollback {
     public static void main(String[] args) throws Exception {
 
         try {
-            XAConnectionUtil util = PostgreSQLXAConnectionUtil.instance();
+            XAConnectionUtil util = FactoryXAConnectionUtil.getInstance();
             System.out.println("Test is going to connect with following data: "
                     + util.getConnectionData().toString());
 

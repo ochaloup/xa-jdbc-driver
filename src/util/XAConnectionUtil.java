@@ -53,8 +53,9 @@ public abstract class XAConnectionUtil {
                 // when table does not exist we ignore failure from DROP
             }
 
-            stmt.executeUpdate("CREATE TABLE " + testTableName
-                    + " (f1 int, f2 varchar)");
+            String varcharTypeSpec = "varchar";
+            if(data.dbType() == DbType.ORACLE) varcharTypeSpec = "varchar(3000)";
+            stmt.executeUpdate("CREATE TABLE " + testTableName + " (f1 int, f2 " + varcharTypeSpec + ")");
         } catch (Exception e) {
             String msgerr = String.format("Can't create table %s",
                     testTableName);
