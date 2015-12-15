@@ -13,6 +13,10 @@ import util.FactoryXAConnectionUtil;
 import util.XAConnectionUtil;
 import util.XidImpl;
 
+/**
+ * Closing connection during 2PC in progress. It checks how jdbc driver reacts
+ * it measn what error code of XAException will be returned back. 
+ */
 public class testConnectionClose {
 
   private static String tableName = "foo";

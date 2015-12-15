@@ -10,6 +10,9 @@ import javax.transaction.xa.Xid;
 
 import util.*;
 
+/**
+ * Simple XA transaction started and committed as it should be by spec (hopefully). 
+ */
 public class testXA {
 
     public static void main(String[] args) throws Exception {

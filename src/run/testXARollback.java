@@ -13,6 +13,9 @@ import util.FactoryXAConnectionUtil;
 import util.XAConnectionUtil;
 import util.XidImpl;
 
+/**
+ * Simple XA transaction started but then rollbacked. 
+ */
 public class testXARollback {
 
     public static void main(String[] args) throws Exception {

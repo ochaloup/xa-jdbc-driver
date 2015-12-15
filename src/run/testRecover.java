@@ -6,6 +6,12 @@ import java.util.Arrays;
 import util.FactoryXAConnectionUtil;
 import util.XAConnectionUtil;
 
+/**
+ * Trying to call function <code>recover</code> to see
+ *   1. if works
+ *   2. it returns information about some in-doubt transactions
+ *
+ */
 public class testRecover {
 
   public static void main(String[] args) throws Exception {
