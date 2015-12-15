@@ -2,13 +2,10 @@ package run;
 
 import java.sql.Connection;
 import java.sql.Statement;
-
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-
-import util.DbType;
 import util.FactoryXAConnectionUtil;
 import util.XAConnectionUtil;
 import util.XidImpl;
@@ -102,9 +99,7 @@ public class testConnectionClose {
          }
 
          System.out.println("Creating table '" + tableName + "'");
-         String varcharTypeSpec = "varchar";
-         if(util.getConnectionData().dbType() == DbType.ORACLE) varcharTypeSpec = "varchar(3000)";
-         stmt.executeUpdate("CREATE TABLE " + tableName + " (id int, value " + varcharTypeSpec + ")");
+         stmt.executeUpdate("CREATE TABLE " + tableName + " (id int, value " + util.getVarCharTypeSpec() + ")");
          stmt.close();
       } catch (Exception e) {
          // Handle any errors that may have occurred.

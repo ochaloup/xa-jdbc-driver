@@ -7,6 +7,7 @@ import util.FactoryXAConnectionUtil;
 import util.MssqlXAConnectionUtil;
 import util.OracleXAConnectionUtil;
 import util.PostgresPlusXAConnectionUtil;
+import util.SybaseXAConnectionUtil;
 
 public class TestXaDb {
     public static void presetPostgreSQL() {
@@ -37,11 +38,22 @@ public class TestXaDb {
         FactoryXAConnectionUtil.setDataBuilder(builder);
     }
 
+    public static void presetSybase() {
+        ConnectionData.Builder builder = new ConnectionData.Builder(
+                SybaseXAConnectionUtil.serverNameSybase157, SybaseXAConnectionUtil.defaultPort)
+                .db("crashrec2")
+                .user("crashrec2")
+                .pass("crashrec2");
+        FactoryXAConnectionUtil.useSybase();
+        FactoryXAConnectionUtil.setDataBuilder(builder);
+    }
+
     public static void preset() {
         // presetPostgresPlus();
         // presetMssql();
         // presetPostgreSQL();
-        presetOracle();
+        // presetOracle();
+        presetSybase();
     }
 
     @Test

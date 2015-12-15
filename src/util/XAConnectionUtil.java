@@ -1,7 +1,6 @@
 package util;
 
 import java.sql.*;
-
 import javax.sql.*;
 
 public abstract class XAConnectionUtil {
@@ -53,9 +52,8 @@ public abstract class XAConnectionUtil {
                 // when table does not exist we ignore failure from DROP
             }
 
-            String varcharTypeSpec = "varchar";
-            if(data.dbType() == DbType.ORACLE) varcharTypeSpec = "varchar(3000)";
-            stmt.executeUpdate("CREATE TABLE " + testTableName + " (f1 int, f2 " + varcharTypeSpec + ")");
+
+            stmt.executeUpdate("CREATE TABLE " + testTableName + " (f1 int, f2 " + getVarCharTypeSpec() + ")");
         } catch (Exception e) {
             String msgerr = String.format("Can't create table %s",
                     testTableName);
@@ -69,6 +67,12 @@ public abstract class XAConnectionUtil {
                 }
             }
         }
+    }
+
+    public String getVarCharTypeSpec() {
+        if(data.dbType() == DbType.ORACLE || data.dbType() == DbType.SYBASE) return "varchar(3000)";
+        if(data.dbType() == DbType.MSSQL) return "varchar(max)";
+        return "varchar";
     }
 
     public ResultSet selectTestTable(Connection con) {

@@ -71,11 +71,14 @@ public class testXARollback {
                         + "]");
                 xaRes.rollback(xid);
             } catch (XAException xae) {
-                if (xae.errorCode == XAException.XAER_NOTA)
-                    System.out.println("[OK ]Second rollback failed with exception: " + xae.getMessage()
+                if (xae.errorCode == XAException.XAER_NOTA) {
+                    System.out.println("[ERROR] Second rollback failed with exception: " + xae.getMessage()
                             + " with correct error code " + xae.errorCode);
-                else
+                } else {
+                    System.out.println("[ERROR] Second rollback failed with exception: " + xae.getMessage()
+                        + " with incorrect error code " + xae.errorCode + "expected XAException.XAER_NOTA: " + XAException.XAER_NOTA);
                     throw xae;
+                }
             }
 
             // Cleanup.

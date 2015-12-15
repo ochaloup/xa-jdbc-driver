@@ -20,6 +20,8 @@ public class FactoryXAConnectionUtil {
                 return PostgresPlusXAConnectionUtil.instance();
             case ORACLE:
                 return OracleXAConnectionUtil.instance();
+            case SYBASE:
+                return SybaseXAConnectionUtil.instance();
             default:
                 throw new IllegalStateException("Not known dbtype" + DB_TYPE.name());
         }
@@ -27,16 +29,18 @@ public class FactoryXAConnectionUtil {
 
     private static XAConnectionUtil builderInstance(ConnectionData.Builder dataBuilder) {
         switch (DB_TYPE) {
-        case MSSQL:
-            return MssqlXAConnectionUtil.instance(dataBuilder);
-        case POSTGRESQL:
-            return PostgreSQLXAConnectionUtil.instance(dataBuilder);
-        case POSTGRESPLUS:
-            return PostgresPlusXAConnectionUtil.instance(dataBuilder);
-        case ORACLE:
-            return OracleXAConnectionUtil.instance(dataBuilder);
-        default:
-            throw new IllegalStateException("Not known dbtype" + DB_TYPE.name());
+            case MSSQL:
+                return MssqlXAConnectionUtil.instance(dataBuilder);
+            case POSTGRESQL:
+                return PostgreSQLXAConnectionUtil.instance(dataBuilder);
+            case POSTGRESPLUS:
+                return PostgresPlusXAConnectionUtil.instance(dataBuilder);
+            case ORACLE:
+                return OracleXAConnectionUtil.instance(dataBuilder);
+            case SYBASE:
+                return SybaseXAConnectionUtil.instance(dataBuilder);
+            default:
+                throw new IllegalStateException("Not known dbtype" + DB_TYPE.name());
         }
     }
 
@@ -54,6 +58,10 @@ public class FactoryXAConnectionUtil {
     
     public static void useOracle() {
         DB_TYPE = DbType.ORACLE;
+    }
+
+    public static void useSybase() {
+        DB_TYPE = DbType.SYBASE;
     }
 
     public static void setDataBuilder(ConnectionData.Builder builder) {

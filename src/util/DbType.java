@@ -1,5 +1,5 @@
 package util;
 
 public enum DbType {
-    POSTGRESQL, POSTGRESPLUS, MSSQL, ORACLE;
+    POSTGRESQL, POSTGRESPLUS, MSSQL, ORACLE, SYBASE;
 }
