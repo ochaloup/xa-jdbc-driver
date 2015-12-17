@@ -14,17 +14,17 @@ rm -rf classes/* && javac -cp $LIBS -d classes src/run/*.java src/util/*.java
 ```
 
 == Running:
-`java -cp ${LIBS}classes -DserverName=localhost -Ddbtype=postgresql run.testXA`
+`java -cp ${LIBS}classes -Dhost=localhost -Ddbtype=postgresql run.testXA`
 
 === Possible parameters
 
 Parameters needs to be set before the name name of running class.
-It means `java -cp classes -DserverName=localhost testXA` works but
-`java -cp classes testXA -DserverName=localhost` does not.
+It means `java -cp classes -Dhost=localhost testXA` works but
+`java -cp classes testXA -Dhost=localhost` does not.
 
  * `-Ddbtype=postgresql`
- * `-DserverName=localhost`
- * `-DportNumber=1433`
- * `-DdatabaseName=crashrec`
+ * `-Dhost=localhost`
+ * `-Dport=1433`
+ * `-Ddatabase=crashrec`
  * `-Duser=crashrec`
  * `-Dpassword=crashrec`

@@ -70,9 +70,19 @@ public abstract class XAConnectionUtil {
     }
 
     public String getVarCharTypeSpec() {
-        if(data.dbType() == DbType.ORACLE || data.dbType() == DbType.SYBASE) return "varchar(3000)";
-        if(data.dbType() == DbType.MSSQL) return "varchar(max)";
-        return "varchar";
+        switch(data.dbType()) {
+            case ORACLE:
+            case SYBASE:
+                return "varchar(3000)";
+            case MSSQL:
+                return "varchar(max)";
+            case MYSQL:
+            case MARIADB:
+                return "text";
+            default:
+                return "varchar";
+                        
+        }
     }
 
     public ResultSet selectTestTable(Connection con) {

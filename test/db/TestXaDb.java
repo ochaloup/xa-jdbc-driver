@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import util.ConnectionData;
 import util.FactoryXAConnectionUtil;
+import util.MariaDBXAConnectionUtil;
 import util.MssqlXAConnectionUtil;
+import util.MySQLXAConnectionUtil;
 import util.OracleXAConnectionUtil;
 import util.PostgresPlusXAConnectionUtil;
 import util.SybaseXAConnectionUtil;
@@ -48,12 +50,28 @@ public class TestXaDb {
         FactoryXAConnectionUtil.setDataBuilder(builder);
     }
 
+    public static void presetMysql() {
+        ConnectionData.Builder builder = new ConnectionData.Builder(
+                MySQLXAConnectionUtil.serverNameMysql57, MySQLXAConnectionUtil.defaultPort);
+        FactoryXAConnectionUtil.useMysql();
+        FactoryXAConnectionUtil.setDataBuilder(builder);
+    }
+
+    public static void presetMariaDB() {
+        ConnectionData.Builder builder = new ConnectionData.Builder(
+                MariaDBXAConnectionUtil.serverNameMariaDB55, MariaDBXAConnectionUtil.defaultPort);
+        FactoryXAConnectionUtil.useMariaDb();
+        FactoryXAConnectionUtil.setDataBuilder(builder);
+    }
+
     public static void preset() {
         // presetPostgresPlus();
         // presetMssql();
-        // presetPostgreSQL();
+        presetPostgreSQL();
         // presetOracle();
-        presetSybase();
+        // presetSybase();
+        // presetMysql();
+        // presetMariaDB();
     }
 
     @Test

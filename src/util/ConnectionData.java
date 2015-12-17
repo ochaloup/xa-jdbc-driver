@@ -6,12 +6,15 @@ public class ConnectionData {
     public static String DATABASE_PARAM  = "database";
     public static String USER_PARAM      = "user";
     public static String PASSWORD_PARAM  = "password";
+    public static String DBTYPE_PARAM    = "dbtype";
 
     private static String postgresqlUrlPrefix = "jdbc:postgresql://";
     private static String mssqlUrlPrefix = "jdbc:sqlserver://";
     private static String postgresPlusPrefix = "jdbc:edb://";
     private static String oraclePrefix = "jdbc:oracle:thin:@";
     private static String sybasePrefix = "jdbc:sybase:Tds:";
+    private static String mariaDbPrefix = "jdbc:mariadb://";
+    private static String mysqlPrefix = "jdbc:mysql://";
     
     private final String url, user, pass, db, server, port;
     private final DbType dbType;
@@ -132,6 +135,18 @@ public class ConnectionData {
         public ConnectionData sybase() {
             String connectionUrl = sybasePrefix +  server + ":" + port + "/" + db;
             this.dbType = DbType.SYBASE;
+            return new ConnectionData(connectionUrl, this);
+        }
+
+        public ConnectionData mariadb() {
+            String connectionUrl = mariaDbPrefix +  server + ":" + port + "/" + db;
+            this.dbType = DbType.MARIADB;
+            return new ConnectionData(connectionUrl, this);
+        }
+        
+        public ConnectionData mysql() {
+            String connectionUrl = mysqlPrefix +  server + ":" + port + "/" + db;
+            this.dbType = DbType.MARIADB;
             return new ConnectionData(connectionUrl, this);
         }
     }

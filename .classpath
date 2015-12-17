@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc7.jar"/>
 	<classpathentry kind="lib" path="lib/jconn4.sybase157.jar"/>
+	<classpathentry kind="lib" path="lib/mariadb-java-client-1.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.36-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
