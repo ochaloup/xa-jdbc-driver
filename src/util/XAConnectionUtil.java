@@ -69,6 +69,39 @@ public abstract class XAConnectionUtil {
         }
     }
 
+    public void createTestTableWithDrop(String tableName) {
+        tableName = tableName == null || tableName.isEmpty() ? testTableName : tableName;
+
+        Connection con = getConnection();
+        try {
+           // Create a test table.
+           Statement stmt = con.createStatement();
+           try {
+              System.out.println("Dropping table '" + tableName + "'");
+              stmt.executeUpdate("DROP TABLE " + tableName); 
+           }
+           catch (Exception e) {
+              System.out.println("Dropping table " + tableName + " ended with error: " + e.getMessage());
+           }
+
+           System.out.println("Creating table '" + tableName + "'");
+           stmt.executeUpdate("CREATE TABLE " + tableName + " (id int, value " + getVarCharTypeSpec() + ")");
+           stmt.close();
+        } catch (Exception e) {
+           // Handle any errors that may have occurred.
+           e.printStackTrace();
+           throw new RuntimeException(e);
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    // ignore
+                }
+            }
+        }
+    }
+
     public String getVarCharTypeSpec() {
         switch(data.dbType()) {
             case ORACLE:

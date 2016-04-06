@@ -10,12 +10,12 @@ import util.XAConnectionUtil;
 import util.XidImpl;
 
 /**
- * Closing connection during 2PC in progress. It checks how jdbc driver reacts
- * it means what error code of XAException will be returned back.
+ * Closing connection during 1PC in progress. It checks how jdbc driver reacts
+ * it means what error code of XAException will be returned back. 
  */
-public class testConnectionClose {
+public class test1PCConnectionClose {
 
-  private static String tableName = "foo";
+  private static String tableName = "foo1pc";
 
   public static void main(String[] args) throws Exception {
 
@@ -33,11 +33,10 @@ public class testConnectionClose {
           XAResource xaResource = xaConnection.getXAResource();
           xaResource.start(xid, XAResource.TMNOFLAGS);
           Connection connection = xaConnection.getConnection();
-          connection.createStatement().execute("insert into " + tableName + " (id) values (1)");
+          String insertSql = "insert into " + tableName + " (id) values (1)";
+          System.out.println("Running SQL: " + insertSql);
+          connection.createStatement().execute(insertSql);
           xaResource.end(xid, XAResource.TMSUCCESS);
-          int outcomeCode = xaResource.prepare(xid);
-          assert (outcomeCode == XAResource.XA_OK);
-          System.out.println("Outcome code of XAResource.prepare() is: " + outcomeCode);
 
           // kill the connection now
           // this is just closing but for our internal testing we simulate
@@ -46,37 +45,37 @@ public class testConnectionClose {
           xaConnection.close();
           
           try {
-              xaResource.commit(xid, false);
+              xaResource.commit(xid, true); // true means onephase
           } catch (XAException xae) {
               int outcome = xae.errorCode;
               // http://docs.oracle.com/javase/7/docs/api/javax/transaction/xa/XAException.html#errorCode
-             // http://docs.oracle.com/javase/7/docs/api/constant-values.html#javax.transaction
-             System.out.println("XAER_RMERR is -3, XAER_RMFAIL is -7, XA_RETRY is 4");
-             System.out.println("Outcome error code of the exception is: " + outcome + " with message " + xae.getMessage());
+              // http://docs.oracle.com/javase/7/docs/api/constant-values.html#javax.transaction
+              System.out.println("XAER_RMERR is -3, XAER_RMFAIL is -7, XA_RETRY is 4");
+              System.out.println("Outcome error code of the exception is: " + outcome + " with message:\n " + xae.getMessage());
+              // xae.printStackTrace();
+
+             /* From XA specification
+              * ---------------------
+              * The resource manager is not able to commit the transaction branch at this time.
+              * This value may be returned when a blocking condition exists and TMNOWAIT was set.
+              * Note, however, that this value may also be returned even when TMNOWAIT is not set
+              * (for example, if the necessary stable storage is currently unavailable).
+              * This value cannot be returned if TMONEPHASE is set in flags.
+              * All resources held on behalf of xid remain in a prepared state until commitment is possible.
+              * The transaction manager should reissue xa_commit() at a later time. 
+              */
           }
       }
 
       {
-          // restore the database now...
+          // checking database prepared connections now...
           XAConnection xaConnection = util.getXAConnection();
           XAResource xaResource = xaConnection.getXAResource();
           Xid[] recover = xaResource.recover(XAResource.TMSTARTRSCAN);
-          // As per spec, if the commit returns XAException.XAER_RMERR then there should be no elements here
+          // as no prepare happen there should be no elements here
           assert (recover == null || recover.length == 0);
           System.out.println("Number of elements got after recover: " + recover.length);
           xaResource.recover(XAResource.TMENDRSCAN);
-
-          for(Xid xidToRollback: recover) {
-             System.out.println("Checkig xid to rollback: " + xidToRollback);
-             if(xidToRollback.equals(xid)) {
-               try {
-                 xaResource.rollback(xidToRollback);
-               } catch (Exception e) {
-                 System.out.println("Can't rollback xid: " + xidToRollback + " for reason " + e.getMessage());
-               }
-             }
-          }          
-
           xaConnection.close();
       }
    }

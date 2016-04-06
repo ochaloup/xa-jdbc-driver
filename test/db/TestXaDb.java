@@ -101,6 +101,12 @@ public class TestXaDb {
         preset();
         run.testConnectionClose.main(new String[]{});
     }
+    
+    @Test
+    public void test1PCConnectionClose() throws Exception {
+        preset();
+        run.test1PCConnectionClose.main(new String[]{});
+    }
 
     @Test
     public void testRecover() throws Exception {
