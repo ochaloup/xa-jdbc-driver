@@ -7,7 +7,22 @@ public class FactoryXAConnectionUtil {
 
     public static XAConnectionUtil getInstance() {
         if(connectionData != null) DB_TYPE = connectionData.dbType();
-        return buildInstance();
+        return buildInstance(connectionData);
+    }
+
+    public static XAConnectionUtil getInstance(String host, String port) {
+        ConnectionData cd = connectionData;
+        if(cd == null) {
+            cd = getInstance().getConnectionData();
+        }
+
+        cd = new ConnectionData.Builder(host, port)
+            .db(cd.db())
+            .dbType(cd.dbType())
+            .user(cd.user())
+            .pass(cd.pass())
+            .build();
+        return buildInstance(cd);
     }
 
     public static void setConnectionData(ConnectionData connectionData) {
@@ -41,7 +56,7 @@ public class FactoryXAConnectionUtil {
         }
     }
 
-    private static XAConnectionUtil buildInstance() {
+    private static XAConnectionUtil buildInstance(ConnectionData connectionData) {
         Class<? extends XAConnectionUtil> clazz = getXAConnectionUtilClass(DB_TYPE);
         try {
             XAConnectionUtil xaConnectionUtil = clazz.newInstance();

@@ -32,6 +32,7 @@ public class Db2XAConnectionUtil extends XAConnectionUtil {
             ds.setDriverType(4);
             return ds.getXAConnection();
         } catch (Exception e) {
+            e.printStackTrace();
             new RuntimeException(getCreateXAConnectionErrorString(data), e);
         }
         return null;

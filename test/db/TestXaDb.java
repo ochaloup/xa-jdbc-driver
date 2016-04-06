@@ -108,6 +108,12 @@ public class TestXaDb {
         preset();
         run.test1PCConnectionClose.main(new String[]{});
     }
+    
+    @Test
+    public void test1PCConnectionProxy() throws Exception {
+        preset();
+        run.test1PCConnectionProxy.main(new String[]{});
+    }
 
     @Test
     public void testRecover() throws Exception {
