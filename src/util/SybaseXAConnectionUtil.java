@@ -9,8 +9,7 @@ public class SybaseXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "5000";
 
     public SybaseXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameSybase157, defaultPort)
-            .dbType(DbType.MARIADB);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.MARIADB);
         super.setConnectionData(dataBuilder.build());
     }
 

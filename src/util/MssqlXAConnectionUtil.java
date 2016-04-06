@@ -14,8 +14,7 @@ public class MssqlXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "1433";
 
     public MssqlXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMssql2012, defaultPort)
-            .dbType(DbType.MSSQL);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.MSSQL);
         super.setConnectionData(dataBuilder.build());
     }
 

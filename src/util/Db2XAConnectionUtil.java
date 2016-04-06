@@ -9,8 +9,7 @@ public class Db2XAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "50000";
 
     public Db2XAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameDb2105, defaultPort)
-            .dbType(DbType.DB2);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.DB2);
         super.setConnectionData(dataBuilder.build());
     }
 

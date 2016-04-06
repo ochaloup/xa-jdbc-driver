@@ -25,8 +25,7 @@ public class test1PCConnectionProxy {
 
       XAConnectionUtil util = FactoryXAConnectionUtil.getInstance();
       ConnectionData connData = util.getConnectionData();
-      System.out.println("Test is going to connect with following data: "
-              + util.getConnectionData().toString());
+      System.out.println("Test is going to connect with following data: " + util.getConnectionData());
 
       util.createTestTableWithDrop(tableName);
 
@@ -39,6 +38,7 @@ public class test1PCConnectionProxy {
           " pointing to " + connData.server() + ":" + connData.portAsInt());
       tcpRelay.startTCPRelay(proxyHost, Integer.valueOf(proxyPort), connData.server(), connData.portAsInt());
       XAConnectionUtil utilProxied = FactoryXAConnectionUtil.getInstance(proxyHost, proxyPort);
+      System.out.println("Proxied connection has following data: " + utilProxied.getConnectionData());
 
       {
           XAConnection xaConnection = utilProxied.getXAConnection();
@@ -55,6 +55,7 @@ public class test1PCConnectionProxy {
           
           try {
               xaResource.commit(xid, true); // true means onephase
+              throw new IllegalStateException("Commit should fail - test has some trouble");
           } catch (XAException xae) {
               int outcome = xae.errorCode;
               // http://docs.oracle.com/javase/7/docs/api/javax/transaction/xa/XAException.html#errorCode

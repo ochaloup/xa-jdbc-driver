@@ -10,8 +10,7 @@ public class OracleXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "1521";
 
     public OracleXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameOracle12c, defaultPort)
-            .dbType(DbType.ORACLE);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.ORACLE);
         super.setConnectionData(dataBuilder.build());
     }
 

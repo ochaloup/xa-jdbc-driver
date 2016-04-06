@@ -13,7 +13,7 @@ public class FactoryXAConnectionUtil {
     public static XAConnectionUtil getInstance(String host, String port) {
         ConnectionData cd = connectionData;
         if(cd == null) {
-            cd = getInstance().getConnectionData();
+            cd = buildInstance(null).getConnectionData();
         }
 
         cd = new ConnectionData.Builder(host, port)

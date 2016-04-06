@@ -10,8 +10,7 @@ public class PostgresPlusXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "5432";
 
     public PostgresPlusXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgresPlus94, defaultPort)
-            .dbType(DbType.POSTGRESPLUS);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.POSTGRESPLUS);
         super.setConnectionData(dataBuilder.build());
     }
 

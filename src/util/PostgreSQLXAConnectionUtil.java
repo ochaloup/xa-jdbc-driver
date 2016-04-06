@@ -12,8 +12,7 @@ public class PostgreSQLXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "5432";
 
     public PostgreSQLXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgreSQLLocalhost, defaultPort)
-            .dbType(DbType.MARIADB);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.MARIADB);
         super.setConnectionData(dataBuilder.build());
     }
 

@@ -9,8 +9,7 @@ public class MariaDBXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "3306";
 
     public MariaDBXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMariaDB55, defaultPort)
-            .dbType(DbType.MARIADB);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.MARIADB);
         super.setConnectionData(dataBuilder.build());
     }
 

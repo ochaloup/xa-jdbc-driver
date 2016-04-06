@@ -72,11 +72,12 @@ public class ConnectionData implements Cloneable {
     }
 
     public String toString() {
-        return String.format("jdbc url: '%s', connection props: %s:%s %s/%s", url, server, port, user, pass);
+        return String.format("jdbc url: '%s', type: '%s', connection props: %s:%s %s/%s", url, dbType.name(), server, port, user, pass);
     }
 
     public static class Builder {
-        private final String server, port;
+        private String server = System.getProperty(ConnectionData.SERVER_PARAM);
+        private String port = System.getProperty(ConnectionData.PORT_PARAM);
         private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
         private String pass = System.getProperty(ConnectionData.PASSWORD_PARAM, "crashrec");
@@ -96,8 +97,8 @@ public class ConnectionData implements Cloneable {
          * If system properties for server and port is not defined then default params are used.
          */
         public Builder(String defaultServer, String defaultPort) {
-            this.server = System.getProperty(ConnectionData.SERVER_PARAM, defaultServer);
-            this.port = System.getProperty(ConnectionData.PORT_PARAM, defaultPort);
+            this.server = defaultServer;
+            this.port = defaultPort;
         }
         
         public Builder user(String userName) {

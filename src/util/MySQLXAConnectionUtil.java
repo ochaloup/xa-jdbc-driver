@@ -10,8 +10,7 @@ public class MySQLXAConnectionUtil extends XAConnectionUtil {
     public static String defaultPort = "3306";
 
     public MySQLXAConnectionUtil() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMysql57, defaultPort)
-            .dbType(DbType.MYSQL);
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder().dbType(DbType.MYSQL);
         super.setConnectionData(dataBuilder.build());
     }
 
