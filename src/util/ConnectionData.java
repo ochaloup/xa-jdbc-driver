@@ -75,21 +75,6 @@ public class ConnectionData implements Cloneable {
         return String.format("jdbc url: '%s', connection props: %s:%s %s/%s", url, server, port, user, pass);
     }
 
-    @Override
-    public ConnectionData clone() throws CloneNotSupportedException {
-        ConnectionData.Builder builder = new ConnectionData.Builder(this.url(), this.port())
-            .db(this.db())
-            .user(this.user())
-            .pass(this.pass());
-
-        switch(this.dbType()) {
-            case DB2:
-                builder.db2();
-            default:
-                throw new IllegalStateException("Not supported DB type for cloning");
-        }
-    }
-
     public static class Builder {
         private final String server, port;
         private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
