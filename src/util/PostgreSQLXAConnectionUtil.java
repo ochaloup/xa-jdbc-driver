@@ -11,17 +11,10 @@ public class PostgreSQLXAConnectionUtil extends XAConnectionUtil {
     public static String serverNamePostgreSQL93 = "db20.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "5432";
 
-    private PostgreSQLXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static PostgreSQLXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new PostgreSQLXAConnectionUtil(dataBuilder.postgresql());
-    }
-
-    public static PostgreSQLXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgreSQLLocalhost, defaultPort);
-        return instance(dataBuilder);
+    public PostgreSQLXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNamePostgreSQLLocalhost, defaultPort)
+            .dbType(DbType.MARIADB);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

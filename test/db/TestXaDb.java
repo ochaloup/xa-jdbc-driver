@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import util.ConnectionData;
 import util.Db2XAConnectionUtil;
+import util.DbType;
 import util.FactoryXAConnectionUtil;
 import util.MariaDBXAConnectionUtil;
 import util.MssqlXAConnectionUtil;
@@ -14,31 +15,31 @@ import util.SybaseXAConnectionUtil;
 
 public class TestXaDb {
     public static void presetPostgreSQL() {
-        ConnectionData.Builder builder = new ConnectionData.Builder("localhost", "5432");
-        FactoryXAConnectionUtil.usePostgreSQL();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+        ConnectionData.Builder builder = new ConnectionData.Builder("localhost", "5432")
+            .dbType(DbType.POSTGRESQL);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
 
     public static void presetPostgresPlus() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
-                PostgresPlusXAConnectionUtil.serverNamePostgresPlus94, PostgresPlusXAConnectionUtil.defaultPort);
-        FactoryXAConnectionUtil.usePostgresPlus();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                PostgresPlusXAConnectionUtil.serverNamePostgresPlus94, PostgresPlusXAConnectionUtil.defaultPort)
+                .dbType(DbType.POSTGRESPLUS);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
     
     public static void presetMssql() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
-                MssqlXAConnectionUtil.serverNameMssql2014, MssqlXAConnectionUtil.defaultPort);
-        FactoryXAConnectionUtil.useMssql();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                MssqlXAConnectionUtil.serverNameMssql2012, MssqlXAConnectionUtil.defaultPort)
+                .dbType(DbType.MSSQL);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
     
     public static void presetOracle() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
                 OracleXAConnectionUtil.serverNameOracle12c, OracleXAConnectionUtil.defaultPort)
-                .db("qaora12");
-        FactoryXAConnectionUtil.useOracle();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                .db("qaora12")
+                .dbType(DbType.ORACLE);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
 
     public static void presetSybase() {
@@ -46,31 +47,31 @@ public class TestXaDb {
                 SybaseXAConnectionUtil.serverNameSybase157, SybaseXAConnectionUtil.defaultPort)
                 .db("crashrec2")
                 .user("crashrec2")
-                .pass("crashrec2");
-        FactoryXAConnectionUtil.useSybase();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                .pass("crashrec2")
+                .dbType(DbType.SYBASE);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
     
     public static void presetDb2() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
             Db2XAConnectionUtil.serverNameDb2105, Db2XAConnectionUtil.defaultPort)
-            .db("jbossqa");
-        FactoryXAConnectionUtil.useDb2();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+            .db("jbossqa")
+            .dbType(DbType.DB2);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
 
     public static void presetMysql() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
-                MySQLXAConnectionUtil.serverNameMysql57, MySQLXAConnectionUtil.defaultPort);
-        FactoryXAConnectionUtil.useMysql();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                MySQLXAConnectionUtil.serverNameMysql57, MySQLXAConnectionUtil.defaultPort)
+                .dbType(DbType.MYSQL);
+        FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
 
     public static void presetMariaDB() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
-                MariaDBXAConnectionUtil.serverNameMariaDB55, MariaDBXAConnectionUtil.defaultPort);
-        FactoryXAConnectionUtil.useMariaDb();
-        FactoryXAConnectionUtil.setDataBuilder(builder);
+                MariaDBXAConnectionUtil.serverNameMariaDB55, MariaDBXAConnectionUtil.defaultPort)
+                .dbType(DbType.MARIADB);
+            FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
 
     public static void preset() {

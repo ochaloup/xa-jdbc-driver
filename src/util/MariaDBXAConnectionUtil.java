@@ -8,17 +8,10 @@ public class MariaDBXAConnectionUtil extends XAConnectionUtil {
     public static String serverNameMariaDB55 = "db22.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "3306";
 
-    private MariaDBXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static MariaDBXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new MariaDBXAConnectionUtil(dataBuilder.mariadb());
-    }
-
-    public static MariaDBXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMariaDB55, defaultPort);
-        return instance(dataBuilder);
+    public MariaDBXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMariaDB55, defaultPort)
+            .dbType(DbType.MARIADB);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

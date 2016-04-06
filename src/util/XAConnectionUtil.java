@@ -7,13 +7,13 @@ public abstract class XAConnectionUtil {
     // static
     private static final String testTableName = "XA_MIN";
     // instance
-    protected final ConnectionData data;
+    protected ConnectionData data;
 
     // abstract
     public abstract String getDriverClassName();
     public abstract XAConnection getXAConnection();
 
-    public XAConnectionUtil(ConnectionData data) {
+    public void setConnectionData(ConnectionData data) {
         this.data = data;
     }
 

@@ -8,17 +8,10 @@ public class Db2XAConnectionUtil extends XAConnectionUtil {
     public static String serverNameDb2105 = "db17.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "50000";
 
-    private Db2XAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static Db2XAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new Db2XAConnectionUtil(dataBuilder.db2());
-    }
-
-    public static Db2XAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameDb2105, defaultPort);
-        return instance(dataBuilder);
+    public Db2XAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameDb2105, defaultPort)
+            .dbType(DbType.DB2);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

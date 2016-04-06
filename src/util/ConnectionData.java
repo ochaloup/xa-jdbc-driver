@@ -1,6 +1,6 @@
 package util;
 
-public class ConnectionData {
+public class ConnectionData implements Cloneable {
     public static String SERVER_PARAM    = "host";
     public static String PORT_PARAM      = "port";
     public static String DATABASE_PARAM  = "database";
@@ -19,6 +19,7 @@ public class ConnectionData {
     
     private final String url, user, pass, db, server, port;
     private final DbType dbType;
+    private Class<? extends XAConnectionUtil> xaConnectionUtil;
 
     /**
      * Use method {@link #url()} to instantiate this class.
@@ -31,6 +32,7 @@ public class ConnectionData {
         this.server = builder.server;
         this.port = builder.port;
         this.dbType = builder.dbType;
+        this.xaConnectionUtil = builder.xaConnectionUtil;
     }
 
     public String url() {
@@ -64,9 +66,28 @@ public class ConnectionData {
     public DbType dbType() {
         return dbType;
     }
+    
+    public Class<? extends XAConnectionUtil> xaConnectionUtil() {
+        return xaConnectionUtil;
+    }
 
     public String toString() {
         return String.format("jdbc url: '%s', connection props: %s:%s %s/%s", url, server, port, user, pass);
+    }
+
+    @Override
+    public ConnectionData clone() throws CloneNotSupportedException {
+        ConnectionData.Builder builder = new ConnectionData.Builder(this.url(), this.port())
+            .db(this.db())
+            .user(this.user())
+            .pass(this.pass());
+
+        switch(this.dbType()) {
+            case DB2:
+                builder.db2();
+            default:
+                throw new IllegalStateException("Not supported DB type for cloning");
+        }
     }
 
     public static class Builder {
@@ -75,6 +96,7 @@ public class ConnectionData {
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
         private String pass = System.getProperty(ConnectionData.PASSWORD_PARAM, "crashrec");
         private DbType dbType;
+        private Class<? extends XAConnectionUtil> xaConnectionUtil;
 
         public Builder() {
             this.server = System.getProperty(ConnectionData.SERVER_PARAM);
@@ -107,53 +129,86 @@ public class ConnectionData {
             this.db = databaseName;
             return this;
         }
+        
+        public Builder type(String type) {
+            this.dbType = DbType.valueOf(type.toUpperCase());
+            return this;
+        }
+        
+        public Builder dbType(DbType type) {
+            this.dbType = type;
+            return this;
+        }
 
-        public ConnectionData postgresql() {
+        public ConnectionData build() {
+            switch(this.dbType) {
+                case MSSQL:
+                    return mssql();
+                case POSTGRESQL:
+                    return postgresql();
+                case POSTGRESPLUS:
+                    return postgresplus();
+                case ORACLE:
+                    return oracle();
+                case SYBASE:
+                    return sybase();
+                case DB2:
+                    return db2();
+                case MYSQL:
+                    return mysql();
+                case MARIADB:
+                    return mariadb();
+                default:
+                    throw new IllegalStateException("Unsupported db type connection data for " + this.dbType);
+            }
+        }
+
+        private ConnectionData postgresql() {
             String connectionUrl = postgresqlUrlPrefix + server + ":" + port  + "/" + db;
-            this.dbType = DbType.POSTGRESQL;
+            xaConnectionUtil = MssqlXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
-        public ConnectionData postgresplus() {
+        private ConnectionData postgresplus() {
             String connectionUrl = postgresPlusPrefix + server + ":" + port  + "/" + db;
-            this.dbType = DbType.POSTGRESPLUS;
+            xaConnectionUtil = PostgresPlusXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
-        public ConnectionData mssql() {
+        private ConnectionData mssql() {
             String connectionUrl = mssqlUrlPrefix +  server + ":" + port
                     + ";databaseName=" + db + ";user=" + user + ";password=" + pass;
-            this.dbType = DbType.MSSQL;
+            xaConnectionUtil = MssqlXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
-        public ConnectionData oracle() {
+        private ConnectionData oracle() {
             String connectionUrl = oraclePrefix +  server + ":" + port + ":" + db;
-            this.dbType = DbType.ORACLE;
+            xaConnectionUtil = OracleXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
-        public ConnectionData sybase() {
+        private ConnectionData sybase() {
             String connectionUrl = sybasePrefix +  server + ":" + port + "/" + db;
-            this.dbType = DbType.SYBASE;
+            xaConnectionUtil = SybaseXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
-        public ConnectionData db2() {
+        private ConnectionData db2() {
             String connectionUrl = db2Prefix +  server + ":" + port + "/" + db;
-            this.dbType = DbType.DB2;
+            xaConnectionUtil = Db2XAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
-        public ConnectionData mariadb() {
+        private ConnectionData mariadb() {
             String connectionUrl = mariaDbPrefix +  server + ":" + port + "/" + db;
-            this.dbType = DbType.MARIADB;
+            xaConnectionUtil = MariaDBXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
-        public ConnectionData mysql() {
+        private ConnectionData mysql() {
             String connectionUrl = mysqlPrefix +  server + ":" + port + "/" + db;
-            this.dbType = DbType.MARIADB;
+            xaConnectionUtil = MySQLXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
     }

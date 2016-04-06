@@ -9,17 +9,10 @@ public class OracleXAConnectionUtil extends XAConnectionUtil {
     public static String serverNameOracle12c = "dev151.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "1521";
 
-    private OracleXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static OracleXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new OracleXAConnectionUtil(dataBuilder.oracle());
-    }
-
-    public static OracleXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameOracle12c, defaultPort);
-        return instance(dataBuilder);
+    public OracleXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameOracle12c, defaultPort)
+            .dbType(DbType.ORACLE);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

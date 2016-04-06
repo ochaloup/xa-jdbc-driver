@@ -9,17 +9,10 @@ public class MySQLXAConnectionUtil extends XAConnectionUtil {
     public static String serverNameMysql57 = "db19.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "3306";
 
-    private MySQLXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static MySQLXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new MySQLXAConnectionUtil(dataBuilder.mysql());
-    }
-
-    public static MySQLXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMysql57, defaultPort);
-        return instance(dataBuilder);
+    public MySQLXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMysql57, defaultPort)
+            .dbType(DbType.MYSQL);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

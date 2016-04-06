@@ -8,17 +8,10 @@ public class SybaseXAConnectionUtil extends XAConnectionUtil {
     public static String serverNameSybase157 = "db05.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "5000";
 
-    private SybaseXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static SybaseXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new SybaseXAConnectionUtil(dataBuilder.sybase());
-    }
-
-    public static SybaseXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameSybase157, defaultPort);
-        return instance(dataBuilder);
+    public SybaseXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameSybase157, defaultPort)
+            .dbType(DbType.MARIADB);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override

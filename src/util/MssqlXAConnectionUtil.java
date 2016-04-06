@@ -13,17 +13,10 @@ public class MssqlXAConnectionUtil extends XAConnectionUtil {
     public static String serverNameMssql2014 = "db18.mw.lab.eng.bos.redhat.com";
     public static String defaultPort = "1433";
 
-    private MssqlXAConnectionUtil(ConnectionData data) {
-        super(data);
-    }
-
-    public static MssqlXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new MssqlXAConnectionUtil(dataBuilder.mssql());
-    }
-
-    public static MssqlXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMssql2012, defaultPort);
-        return instance(dataBuilder);
+    public MssqlXAConnectionUtil() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMssql2012, defaultPort)
+            .dbType(DbType.MSSQL);
+        super.setConnectionData(dataBuilder.build());
     }
 
     @Override
