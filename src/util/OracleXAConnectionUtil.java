@@ -29,9 +29,6 @@ public class OracleXAConnectionUtil extends XAConnectionUtil {
 
     @Override
     public XAConnection getXAConnection() {
-        String msgerr = String.format("Can't create XA connection to: %s:%s %s/%s/%s", data.server(),
-                data.port(), data.db(), data.user(), data.pass());
-        
         try {
             // Create the XA data source and XA ready connection.
             OracleXADataSource ds = new OracleXADataSource();
@@ -43,7 +40,8 @@ public class OracleXAConnectionUtil extends XAConnectionUtil {
             ds.setDatabaseName(data.db());
             return ds.getXAConnection();
         } catch (Exception e) {
-            throw new RuntimeException(msgerr, e);
+            new RuntimeException(getCreateXAConnectionErrorString(data), e);
         }
+        return null;
     }
 }

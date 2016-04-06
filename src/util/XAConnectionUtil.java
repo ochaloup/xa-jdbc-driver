@@ -73,6 +73,7 @@ public abstract class XAConnectionUtil {
         switch(data.dbType()) {
             case ORACLE:
             case SYBASE:
+            case DB2:
                 return "varchar(3000)";
             case MSSQL:
                 return "varchar(max)";
@@ -113,6 +114,11 @@ public abstract class XAConnectionUtil {
                             index, value, con);
             throw new RuntimeException(msgerr, e);
         }
+    }
+
+    protected String getCreateXAConnectionErrorString(ConnectionData connectionData) {
+        return String.format("Can't create XA connection to: %s:%s %s/%s/%s", connectionData.server(),
+            connectionData.port(), connectionData.db(), connectionData.user(), connectionData.pass());
     }
 
     private boolean isClassLoaded(String className) throws Exception {

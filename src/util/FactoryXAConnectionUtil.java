@@ -22,6 +22,8 @@ public class FactoryXAConnectionUtil {
                 return OracleXAConnectionUtil.instance();
             case SYBASE:
                 return SybaseXAConnectionUtil.instance();
+            case DB2:
+                return Db2XAConnectionUtil.instance();
             case MYSQL:
                 return MySQLXAConnectionUtil.instance();
             case MARIADB:
@@ -43,6 +45,8 @@ public class FactoryXAConnectionUtil {
                 return OracleXAConnectionUtil.instance(dataBuilder);
             case SYBASE:
                 return SybaseXAConnectionUtil.instance(dataBuilder);
+            case DB2:
+                return Db2XAConnectionUtil.instance(dataBuilder);
             case MYSQL:
                 return MySQLXAConnectionUtil.instance(dataBuilder);
             case MARIADB:
@@ -70,6 +74,10 @@ public class FactoryXAConnectionUtil {
 
     public static void useSybase() {
         DB_TYPE = DbType.SYBASE;
+    }
+    
+    public static void useDb2() {
+        DB_TYPE = DbType.DB2;
     }
     
     public static void useMysql() {

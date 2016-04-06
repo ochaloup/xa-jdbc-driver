@@ -13,6 +13,7 @@ public class ConnectionData {
     private static String postgresPlusPrefix = "jdbc:edb://";
     private static String oraclePrefix = "jdbc:oracle:thin:@";
     private static String sybasePrefix = "jdbc:sybase:Tds:";
+    private static String db2Prefix = "jdbc:db2://";
     private static String mariaDbPrefix = "jdbc:mariadb://";
     private static String mysqlPrefix = "jdbc:mysql://";
     
@@ -135,6 +136,12 @@ public class ConnectionData {
         public ConnectionData sybase() {
             String connectionUrl = sybasePrefix +  server + ":" + port + "/" + db;
             this.dbType = DbType.SYBASE;
+            return new ConnectionData(connectionUrl, this);
+        }
+        
+        public ConnectionData db2() {
+            String connectionUrl = db2Prefix +  server + ":" + port + "/" + db;
+            this.dbType = DbType.DB2;
             return new ConnectionData(connectionUrl, this);
         }
 

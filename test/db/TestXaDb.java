@@ -3,6 +3,7 @@ package db;
 import org.junit.Test;
 
 import util.ConnectionData;
+import util.Db2XAConnectionUtil;
 import util.FactoryXAConnectionUtil;
 import util.MariaDBXAConnectionUtil;
 import util.MssqlXAConnectionUtil;
@@ -49,6 +50,14 @@ public class TestXaDb {
         FactoryXAConnectionUtil.useSybase();
         FactoryXAConnectionUtil.setDataBuilder(builder);
     }
+    
+    public static void presetDb2() {
+        ConnectionData.Builder builder = new ConnectionData.Builder(
+            Db2XAConnectionUtil.serverNameDb2105, Db2XAConnectionUtil.defaultPort)
+            .db("jbossqa");
+        FactoryXAConnectionUtil.useDb2();
+        FactoryXAConnectionUtil.setDataBuilder(builder);
+    }
 
     public static void presetMysql() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
@@ -67,11 +76,12 @@ public class TestXaDb {
     public static void preset() {
         // presetPostgresPlus();
         // presetMssql();
-        presetPostgreSQL();
+        // presetPostgreSQL();
         // presetOracle();
         // presetSybase();
         // presetMysql();
         // presetMariaDB();
+        presetDb2();
     }
 
     @Test

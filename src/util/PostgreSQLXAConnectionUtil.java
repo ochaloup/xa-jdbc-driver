@@ -41,10 +41,7 @@ public class PostgreSQLXAConnectionUtil extends XAConnectionUtil {
             ds.setDatabaseName(data.db());
             return ds.getXAConnection();
         } catch (Exception e) {
-            String msgerr = String.format(
-                    "Can't create XA connection to: %s:%s %s/%s/%s", data.server(),
-                    data.port(), data.db(), data.user(), data.pass());
-            new RuntimeException(msgerr, e);
+            new RuntimeException(getCreateXAConnectionErrorString(data), e);
         }
         return null;
     }

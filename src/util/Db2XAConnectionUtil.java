@@ -2,22 +2,22 @@ package util;
 
 import javax.sql.XAConnection;
 
-public class MariaDBXAConnectionUtil extends XAConnectionUtil {
-    private static final String driverClass = "org.mariadb.jdbc.Driver";
+public class Db2XAConnectionUtil extends XAConnectionUtil {
+    private static final String driverClass = "com.ibm.db2.jcc.DB2Driver";
 
-    public static String serverNameMariaDB55 = "db22.mw.lab.eng.bos.redhat.com";
-    public static String defaultPort = "3306";
+    public static String serverNameDb2105 = "db17.mw.lab.eng.bos.redhat.com";
+    public static String defaultPort = "50000";
 
-    private MariaDBXAConnectionUtil(ConnectionData data) {
+    private Db2XAConnectionUtil(ConnectionData data) {
         super(data);
     }
 
-    public static MariaDBXAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
-        return new MariaDBXAConnectionUtil(dataBuilder.mariadb());
+    public static Db2XAConnectionUtil instance(ConnectionData.Builder dataBuilder) {
+        return new Db2XAConnectionUtil(dataBuilder.db2());
     }
 
-    public static MariaDBXAConnectionUtil instance() {
-        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameMariaDB55, defaultPort);
+    public static Db2XAConnectionUtil instance() {
+        ConnectionData.Builder dataBuilder = new ConnectionData.Builder(serverNameDb2105, defaultPort);
         return instance(dataBuilder);
     }
 
@@ -30,12 +30,13 @@ public class MariaDBXAConnectionUtil extends XAConnectionUtil {
     public XAConnection getXAConnection() {
         try {
             // Create the XA data source and XA ready connection.
-            org.mariadb.jdbc.MySQLDataSource ds = new org.mariadb.jdbc.MySQLDataSource();
+            com.ibm.db2.jcc.DB2XADataSource ds = new com.ibm.db2.jcc.DB2XADataSource();
             ds.setUser(data.user());
             ds.setPassword(data.pass());
             ds.setServerName(data.server());
             ds.setPortNumber(data.portAsInt());
             ds.setDatabaseName(data.db());
+            ds.setDriverType(4);
             return ds.getXAConnection();
         } catch (Exception e) {
             new RuntimeException(getCreateXAConnectionErrorString(data), e);
