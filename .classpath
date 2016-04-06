@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/mariadb-java-client-1.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.36-bin.jar"/>
 	<classpathentry kind="lib" path="/home/ochaloup/Transactions/xa-jdbc-driver/lib/db2jcc4.10.5.0.7-FP007.jar"/>
+	<classpathentry kind="lib" path="/home/ochaloup/Transactions/xa-jdbc-driver/lib/socketproxy.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
