@@ -3,6 +3,7 @@ package util;
 public class ConnectionData implements Cloneable {
     public static String HOST_PARAM      = "host";
     public static String PORT_PARAM      = "port";
+    public static String URL_PARAM      = "url";
     public static String DATABASE_PARAM  = "database";
     public static String USER_PARAM      = "user";
     public static String PASSWORD_PARAM  = "password";
@@ -78,6 +79,7 @@ public class ConnectionData implements Cloneable {
     public static class Builder {
         private String host = System.getProperty(ConnectionData.HOST_PARAM);
         private String port = System.getProperty(ConnectionData.PORT_PARAM);
+        private String url = System.getProperty(ConnectionData.URL_PARAM);
         private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
         private String pass = System.getProperty(ConnectionData.PASSWORD_PARAM, "crashrec");
@@ -87,9 +89,10 @@ public class ConnectionData implements Cloneable {
         public Builder() {
             this.host = System.getProperty(ConnectionData.HOST_PARAM);
             this.port = System.getProperty(ConnectionData.PORT_PARAM);
+            this.url = System.getProperty(ConnectionData.URL_PARAM);
 
-            if(host == null || port == null) {
-                throw new NullPointerException("host or port is not defined");
+            if(url == null && (host == null || port == null)) {
+                throw new NullPointerException("url or host and port is not defined");
             }
         }
 
@@ -170,6 +173,7 @@ public class ConnectionData implements Cloneable {
 
         private ConnectionData oracle() {
             String connectionUrl = oraclePrefix +  host + ":" + port + ":" + db;
+            if(url != null) connectionUrl = url;
             xaConnectionUtil = OracleXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }

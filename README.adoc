@@ -41,4 +41,4 @@ java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -cp $
 == Examples of running some databases
 
 * Oracle: `java -cp ${LIBS}classes -Dhost=localhost -Ddbtype=oracle -Dport=1521 run.test2PC`
-
+* Oracle RAC: `java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -cp ${LIBS}classes -Durl=jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=off)(ADDRESS=(PROTOCOL=TCP)(HOST=oracle-12cr1-rac-01.rhev-ci-vms.eng.rdu2.redhat.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=dballo))) -Ddbtype=oracle run.test2PC`
