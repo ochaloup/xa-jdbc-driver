@@ -30,7 +30,7 @@ public class MssqlXAConnectionUtil extends XAConnectionUtil {
             SQLServerXADataSource ds = new SQLServerXADataSource();
             ds.setUser(data.user());
             ds.setPassword(data.pass());
-            ds.setServerName(data.server());
+            ds.setServerName(data.host());
             ds.setPortNumber(data.portAsInt());
             ds.setDatabaseName(data.db());
             return ds.getXAConnection();

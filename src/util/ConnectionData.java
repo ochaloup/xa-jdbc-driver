@@ -1,7 +1,7 @@
 package util;
 
 public class ConnectionData implements Cloneable {
-    public static String SERVER_PARAM    = "host";
+    public static String HOST_PARAM      = "host";
     public static String PORT_PARAM      = "port";
     public static String DATABASE_PARAM  = "database";
     public static String USER_PARAM      = "user";
@@ -17,7 +17,7 @@ public class ConnectionData implements Cloneable {
     private static String mariaDbPrefix = "jdbc:mariadb://";
     private static String mysqlPrefix = "jdbc:mysql://";
     
-    private final String url, user, pass, db, server, port;
+    private final String url, user, pass, db, host, port;
     private final DbType dbType;
     private Class<? extends XAConnectionUtil> xaConnectionUtil;
 
@@ -29,7 +29,7 @@ public class ConnectionData implements Cloneable {
         this.user = builder.user;
         this.pass = builder.pass;
         this.db = builder.db;
-        this.server = builder.server;
+        this.host = builder.host;
         this.port = builder.port;
         this.dbType = builder.dbType;
         this.xaConnectionUtil = builder.xaConnectionUtil;
@@ -51,8 +51,8 @@ public class ConnectionData implements Cloneable {
         return db;
     }
     
-    public String server() {
-        return server;
+    public String host() {
+        return host;
     }
     
     public String port() {
@@ -72,11 +72,11 @@ public class ConnectionData implements Cloneable {
     }
 
     public String toString() {
-        return String.format("jdbc url: '%s', type: '%s', connection props: %s:%s %s/%s", url, dbType.name(), server, port, user, pass);
+        return String.format("jdbc url: '%s', type: '%s', connection props: %s:%s %s/%s", url, dbType.name(), host, port, user, pass);
     }
 
     public static class Builder {
-        private String server = System.getProperty(ConnectionData.SERVER_PARAM);
+        private String host = System.getProperty(ConnectionData.HOST_PARAM);
         private String port = System.getProperty(ConnectionData.PORT_PARAM);
         private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
@@ -85,19 +85,19 @@ public class ConnectionData implements Cloneable {
         private Class<? extends XAConnectionUtil> xaConnectionUtil;
 
         public Builder() {
-            this.server = System.getProperty(ConnectionData.SERVER_PARAM);
+            this.host = System.getProperty(ConnectionData.HOST_PARAM);
             this.port = System.getProperty(ConnectionData.PORT_PARAM);
 
-            if(server == null || port == null) {
+            if(host == null || port == null) {
                 throw new NullPointerException("host or port is not defined");
             }
         }
 
         /**
-         * If system properties for server and port is not defined then default params are used.
+         * If system properties for host and port is not defined then default params are used.
          */
-        public Builder(String defaultServer, String defaultPort) {
-            this.server = defaultServer;
+        public Builder(String defaultHost, String defaultPort) {
+            this.host = defaultHost;
             this.port = defaultPort;
         }
         
@@ -150,50 +150,50 @@ public class ConnectionData implements Cloneable {
         }
 
         private ConnectionData postgresql() {
-            String connectionUrl = postgresqlUrlPrefix + server + ":" + port  + "/" + db;
+            String connectionUrl = postgresqlUrlPrefix + host + ":" + port  + "/" + db;
             xaConnectionUtil = MssqlXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
         private ConnectionData postgresplus() {
-            String connectionUrl = postgresPlusPrefix + server + ":" + port  + "/" + db;
+            String connectionUrl = postgresPlusPrefix + host + ":" + port  + "/" + db;
             xaConnectionUtil = PostgresPlusXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
         private ConnectionData mssql() {
-            String connectionUrl = mssqlUrlPrefix +  server + ":" + port
+            String connectionUrl = mssqlUrlPrefix +  host + ":" + port
                     + ";databaseName=" + db + ";user=" + user + ";password=" + pass;
             xaConnectionUtil = MssqlXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
         private ConnectionData oracle() {
-            String connectionUrl = oraclePrefix +  server + ":" + port + ":" + db;
+            String connectionUrl = oraclePrefix +  host + ":" + port + ":" + db;
             xaConnectionUtil = OracleXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
         private ConnectionData sybase() {
-            String connectionUrl = sybasePrefix +  server + ":" + port + "/" + db;
+            String connectionUrl = sybasePrefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = SybaseXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
         private ConnectionData db2() {
-            String connectionUrl = db2Prefix +  server + ":" + port + "/" + db;
+            String connectionUrl = db2Prefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = Db2XAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
 
         private ConnectionData mariadb() {
-            String connectionUrl = mariaDbPrefix +  server + ":" + port + "/" + db;
+            String connectionUrl = mariaDbPrefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = MariaDBXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
         
         private ConnectionData mysql() {
-            String connectionUrl = mysqlPrefix +  server + ":" + port + "/" + db;
+            String connectionUrl = mysqlPrefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = MySQLXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }

@@ -88,7 +88,7 @@ public class TestXaDb {
     @Test
     public void testXA() throws Exception {
         preset();
-        run.testXA.main(new String[]{});
+        run.test2PC.main(new String[]{});
     }
     
     @Test

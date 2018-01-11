@@ -14,11 +14,14 @@ rm -rf classes/* && javac -cp $LIBS -d classes src/run/*.java src/util/*.java
 ```
 
 == Running:
-`java -cp ${LIBS}classes -Dhost=localhost -Ddbtype=postgresql run.testXA`
+
+NOTE: be sure to setup the `$LIBS` variable as said before
+
+`java -cp ${LIBS}classes -Dhost=localhost -Ddbtype=postgresql run.test2PC`
 
 === Possible parameters
 
-Parameters needs to be set before the name name of running class.
+Parameters needs to be set *before* the name name of running class.
 It means `java -cp classes -Dhost=localhost testXA` works but
 `java -cp classes testXA -Dhost=localhost` does not.
 
@@ -28,3 +31,14 @@ It means `java -cp classes -Dhost=localhost testXA` works but
  * `-Ddatabase=crashrec`
  * `-Duser=crashrec`
  * `-Dpassword=crashrec`
+
+To get running debugging
+
+```
+java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -cp ${LIBS}classes <class.name>
+```
+
+== Examples of running some databases
+
+* Oracle: `java -cp ${LIBS}classes -Dhost=localhost -Ddbtype=oracle -Dport=1521 run.test2PC`
+

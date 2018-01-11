@@ -13,7 +13,7 @@ import util.*;
 /**
  * Simple XA transaction started and committed as it should be by spec (hopefully). 
  */
-public class testXA {
+public class test2PC {
 
     public static void main(String[] args) throws Exception {
 
@@ -47,7 +47,9 @@ public class testXA {
 
             // Commit the transaction.
             xaRes.end(xid, XAResource.TMSUCCESS);
-            xaRes.commit(xid, true);
+
+            xaRes.prepare(xid);
+            xaRes.commit(xid, false);
 
             // trying to do recover here
             try {

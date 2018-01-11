@@ -35,8 +35,8 @@ public class test1PCConnectionProxy {
       TCPRelayThreadService tcpRelay = new TCPRelayThreadService();
       tcpRelay.setQuiet();
       System.out.println("Starting relay proxy at " + proxyHost + ":" + proxyPort +
-          " pointing to " + connData.server() + ":" + connData.portAsInt());
-      tcpRelay.startTCPRelay(proxyHost, Integer.valueOf(proxyPort), connData.server(), connData.portAsInt());
+          " pointing to " + connData.host() + ":" + connData.portAsInt());
+      tcpRelay.startTCPRelay(proxyHost, Integer.valueOf(proxyPort), connData.host(), connData.portAsInt());
       XAConnectionUtil utilProxied = FactoryXAConnectionUtil.getInstance(proxyHost, proxyPort);
       System.out.println("Proxied connection has following data: " + utilProxied.getConnectionData());
 

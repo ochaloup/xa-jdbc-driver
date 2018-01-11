@@ -25,7 +25,7 @@ public class Db2XAConnectionUtil extends XAConnectionUtil {
             com.ibm.db2.jcc.DB2XADataSource ds = new com.ibm.db2.jcc.DB2XADataSource();
             ds.setUser(data.user());
             ds.setPassword(data.pass());
-            ds.setServerName(data.server());
+            ds.setServerName(data.host());
             ds.setPortNumber(data.portAsInt());
             ds.setDatabaseName(data.db());
             ds.setDriverType(4);

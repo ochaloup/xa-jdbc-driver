@@ -26,7 +26,7 @@ public class PostgresPlusXAConnectionUtil extends XAConnectionUtil {
             com.edb.xa.PGXADataSource ds = new com.edb.xa.PGXADataSource();
             ds.setUser(data.user());
             ds.setPassword(data.pass());
-            ds.setServerName(data.server());
+            ds.setServerName(data.host());
             ds.setPortNumber(data.portAsInt());
             ds.setDatabaseName(data.db());
             return ds.getXAConnection();

@@ -25,7 +25,7 @@ public class SybaseXAConnectionUtil extends XAConnectionUtil {
             com.sybase.jdbc4.jdbc.SybXADataSource ds = new com.sybase.jdbc4.jdbc.SybXADataSource();
             ds.setUser(data.user());
             ds.setPassword(data.pass());
-            ds.setServerName(data.server());
+            ds.setServerName(data.host());
             ds.setPortNumber(data.portAsInt());
             ds.setDatabaseName(data.db());
             return ds.getXAConnection();

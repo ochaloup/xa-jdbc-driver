@@ -150,7 +150,7 @@ public abstract class XAConnectionUtil {
     }
 
     protected String getCreateXAConnectionErrorString(ConnectionData connectionData) {
-        return String.format("Can't create XA connection to: %s:%s %s/%s/%s", connectionData.server(),
+        return String.format("Can't create XA connection to: %s:%s %s/%s/%s", connectionData.host(),
             connectionData.port(), connectionData.db(), connectionData.user(), connectionData.pass());
     }
 
