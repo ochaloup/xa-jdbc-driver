@@ -26,7 +26,7 @@ public class FactoryXAConnectionUtil {
     }
 
     public static void setConnectionData(ConnectionData connectionData) {
-        FactoryXAConnectionUtil.connectionData = connectionData; 
+        FactoryXAConnectionUtil.connectionData = connectionData;
     }
 
     public static void unsetDataBuilder() {

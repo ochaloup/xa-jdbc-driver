@@ -25,11 +25,11 @@ public class OracleXAConnectionUtil extends XAConnectionUtil {
             // Create the XA data source and XA ready connection.
             OracleXADataSource ds = new OracleXADataSource();
             if(data.url() != null && !data.url().isEmpty()) {
-            	ds.setURL(data.url());
+                ds.setURL(data.url());
             } else {
-	            ds.setServerName(data.host());
-	            ds.setPortNumber(data.portAsInt());
-	            ds.setDatabaseName(data.db());
+                ds.setServerName(data.host());
+                ds.setPortNumber(data.portAsInt());
+                ds.setDatabaseName(data.db());
             }
 
             ds.setUser(data.user());

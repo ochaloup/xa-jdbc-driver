@@ -11,7 +11,7 @@ import util.XidImpl;
 
 /**
  * Closing connection during 1PC in progress. It checks how jdbc driver reacts
- * it means what error code of XAException will be returned back. 
+ * it means what error code of XAException will be returned back.
  */
 public class test1PCConnectionClose {
 
@@ -43,7 +43,7 @@ public class test1PCConnectionClose {
           // killing connection by proxying the connection and then hitting the proxy
           System.out.println("Simulation of trouble on the connection by closing it");
           xaConnection.close();
-          
+
           try {
               xaResource.commit(xid, true); // true means onephase
           } catch (XAException xae) {
@@ -62,7 +62,7 @@ public class test1PCConnectionClose {
               * (for example, if the necessary stable storage is currently unavailable).
               * This value cannot be returned if TMONEPHASE is set in flags.
               * All resources held on behalf of xid remain in a prepared state until commitment is possible.
-              * The transaction manager should reissue xa_commit() at a later time. 
+              * The transaction manager should reissue xa_commit() at a later time.
               */
           }
       }

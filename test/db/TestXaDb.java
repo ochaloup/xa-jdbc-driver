@@ -26,14 +26,14 @@ public class TestXaDb {
                 .dbType(DbType.POSTGRESPLUS);
         FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
-    
+
     public static void presetMssql() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
                 MssqlXAConnectionUtil.serverNameMssql2012, MssqlXAConnectionUtil.defaultPort)
                 .dbType(DbType.MSSQL);
         FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
-    
+
     public static void presetOracle() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
                 OracleXAConnectionUtil.serverNameOracle12c, OracleXAConnectionUtil.defaultPort)
@@ -51,7 +51,7 @@ public class TestXaDb {
                 .dbType(DbType.SYBASE);
         FactoryXAConnectionUtil.setConnectionData(builder.build());
     }
-    
+
     public static void presetDb2() {
         ConnectionData.Builder builder = new ConnectionData.Builder(
             Db2XAConnectionUtil.serverNameDb2105, Db2XAConnectionUtil.defaultPort)
@@ -90,7 +90,7 @@ public class TestXaDb {
         preset();
         run.test2PC.main(new String[]{});
     }
-    
+
     @Test
     public void testXARollback() throws Exception {
         preset();
@@ -102,13 +102,13 @@ public class TestXaDb {
         preset();
         run.testConnectionClose.main(new String[]{});
     }
-    
+
     @Test
     public void test1PCConnectionClose() throws Exception {
         preset();
         run.test1PCConnectionClose.main(new String[]{});
     }
-    
+
     @Test
     public void test1PCConnectionProxy() throws Exception {
         preset();

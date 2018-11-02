@@ -17,7 +17,7 @@ public class ConnectionData implements Cloneable {
     private static String db2Prefix = "jdbc:db2://";
     private static String mariaDbPrefix = "jdbc:mariadb://";
     private static String mysqlPrefix = "jdbc:mysql://";
-    
+
     private final String url, user, pass, db, host, port;
     private final DbType dbType;
     private Class<? extends XAConnectionUtil> xaConnectionUtil;
@@ -39,27 +39,27 @@ public class ConnectionData implements Cloneable {
     public String url() {
         return url;
     }
-    
+
     public String user() {
         return user;
     }
-    
+
     public String pass() {
         return pass;
     }
-    
+
     public String db() {
         return db;
     }
-    
+
     public String host() {
         return host;
     }
-    
+
     public String port() {
         return port;
     }
-    
+
     public int portAsInt() {
         return Integer.parseInt(port);
     }
@@ -67,7 +67,7 @@ public class ConnectionData implements Cloneable {
     public DbType dbType() {
         return dbType;
     }
-    
+
     public Class<? extends XAConnectionUtil> xaConnectionUtil() {
         return xaConnectionUtil;
     }
@@ -80,7 +80,7 @@ public class ConnectionData implements Cloneable {
         private String host = System.getProperty(ConnectionData.HOST_PARAM);
         private String port = System.getProperty(ConnectionData.PORT_PARAM);
         private String url = System.getProperty(ConnectionData.URL_PARAM);
-        private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec"); 
+        private String db = System.getProperty(ConnectionData.DATABASE_PARAM, "crashrec");
         private String user = System.getProperty(ConnectionData.USER_PARAM, "crashrec");
         private String pass = System.getProperty(ConnectionData.PASSWORD_PARAM, "crashrec");
         private DbType dbType;
@@ -103,27 +103,27 @@ public class ConnectionData implements Cloneable {
             this.host = defaultHost;
             this.port = defaultPort;
         }
-        
+
         public Builder user(String userName) {
             this.user = userName;
             return this;
         }
-    
+
         public Builder pass(String password) {
             this.pass = password;
             return this;
         }
-    
+
         public Builder db(String databaseName) {
             this.db = databaseName;
             return this;
         }
-        
+
         public Builder type(String type) {
             this.dbType = DbType.valueOf(type.toUpperCase());
             return this;
         }
-        
+
         public Builder dbType(DbType type) {
             this.dbType = type;
             return this;
@@ -177,13 +177,13 @@ public class ConnectionData implements Cloneable {
             xaConnectionUtil = OracleXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
-        
+
         private ConnectionData sybase() {
             String connectionUrl = sybasePrefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = SybaseXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
-        
+
         private ConnectionData db2() {
             String connectionUrl = db2Prefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = Db2XAConnectionUtil.class;
@@ -195,7 +195,7 @@ public class ConnectionData implements Cloneable {
             xaConnectionUtil = MariaDBXAConnectionUtil.class;
             return new ConnectionData(connectionUrl, this);
         }
-        
+
         private ConnectionData mysql() {
             String connectionUrl = mysqlPrefix +  host + ":" + port + "/" + db;
             xaConnectionUtil = MySQLXAConnectionUtil.class;

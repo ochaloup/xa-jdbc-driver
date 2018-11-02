@@ -78,7 +78,7 @@ public abstract class XAConnectionUtil {
            Statement stmt = con.createStatement();
            try {
               System.out.println("Dropping table '" + tableName + "'");
-              stmt.executeUpdate("DROP TABLE " + tableName); 
+              stmt.executeUpdate("DROP TABLE " + tableName);
            }
            catch (Exception e) {
               System.out.println("Dropping table " + tableName + " ended with error: " + e.getMessage());
@@ -115,7 +115,7 @@ public abstract class XAConnectionUtil {
                 return "text";
             default:
                 return "varchar";
-                        
+
         }
     }
 

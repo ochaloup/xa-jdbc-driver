@@ -20,12 +20,12 @@ import util.XAConnectionUtil;
 public class testRecover {
 
   public static void main(String[] args) throws Exception {
-	  List<String> argsList = Arrays.asList(args);
+      List<String> argsList = Arrays.asList(args);
 
-	  boolean isDropTable = argsList.contains("-Ddrop.table") || System.getProperty("drop.table") != null;
-	  boolean isRollback = argsList.contains("-Drollback") || System.getProperty("rollback") != null;
+      boolean isDropTable = argsList.contains("-Ddrop.table") || System.getProperty("drop.table") != null;
+      boolean isRollback = argsList.contains("-Drollback") || System.getProperty("rollback") != null;
 
-	  Xid[] xids = new Xid[] {};
+      Xid[] xids = new Xid[] {};
 
       try {
           XAConnectionUtil util = FactoryXAConnectionUtil.getInstance();
@@ -34,7 +34,7 @@ public class testRecover {
 
           // Drop and create a test table
           if(isDropTable)
-        	  util.createTestTable();
+              util.createTestTable();
 
           // XA connection to get xa resource
           XAConnection xaCon = util.getXAConnection();
@@ -47,38 +47,38 @@ public class testRecover {
            xaRes = xaCon.getXAResource();
            xaRes.setTransactionTimeout(0);
            xids = xaRes.recover(XAResource.TMSTARTRSCAN);
-          
+
            if (xids.length == 0) {
-               System.out.println("There is no in-doubt transaction in database"); 
+               System.out.println("There is no in-doubt transaction in database");
            } else {
                System.out.printf("There is %s in-doubt transactions in database.%nListing: %s%n",
-            		   xids.length, Arrays.asList(xids));
+                       xids.length, Arrays.asList(xids));
            }
          } catch (XAException e) {
-        	 System.err.println("Can't recover at connection " + util.getConnectionData());
+             System.err.println("Can't recover at connection " + util.getConnectionData());
              e.printStackTrace();
          } finally {
            try {
-        	   if(xaRes != null)
-        		   xaRes.recover(XAResource.TMENDRSCAN);
+               if(xaRes != null)
+                   xaRes.recover(XAResource.TMENDRSCAN);
            }
            catch (Exception e1) {
-        	   System.err.println("Can't end recovery scan with TMENDRSCAN at " + util.getConnectionData());
-        	   e1.printStackTrace();
+               System.err.println("Can't end recovery scan with TMENDRSCAN at " + util.getConnectionData());
+               e1.printStackTrace();
            }
          }
 
          // we will try to rollback all transaction which were recovered
          if(isRollback) {
-	         for(Xid xid: xids) {
-	        	 try {
-		        	 System.out.printf("Rollbacking: %s%n", xid);
-		        	 xaRes.rollback(xid);
-	        	 } catch (Exception e) {
-	        		 System.err.printf("Can't rollback Xid: %s%n", xid);
-	        		 e.printStackTrace();
-	        	 }
-	         }
+             for(Xid xid: xids) {
+                 try {
+                     System.out.printf("Rollbacking: %s%n", xid);
+                     xaRes.rollback(xid);
+                 } catch (Exception e) {
+                     System.err.printf("Can't rollback Xid: %s%n", xid);
+                     e.printStackTrace();
+                 }
+             }
          }
 
          // Cleanup.

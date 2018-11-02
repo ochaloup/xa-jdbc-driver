@@ -13,7 +13,7 @@ import util.XidImpl;
 
 /**
  * Closing connection during 1PC in progress. It checks how jdbc driver reacts
- * it means what error code of XAException will be returned back. 
+ * it means what error code of XAException will be returned back.
  */
 public class test1PCConnectionProxy {
 
@@ -52,7 +52,7 @@ public class test1PCConnectionProxy {
 
           System.out.println("Simulation of trouble on the connection by stopping proxy");
           tcpRelay.stopTCPRelay();
-          
+
           try {
               xaResource.commit(xid, true); // true means onephase
               throw new IllegalStateException("Commit should fail - test has some trouble");
@@ -72,7 +72,7 @@ public class test1PCConnectionProxy {
               * (for example, if the necessary stable storage is currently unavailable).
               * This value cannot be returned if TMONEPHASE is set in flags.
               * All resources held on behalf of xid remain in a prepared state until commitment is possible.
-              * The transaction manager should reissue xa_commit() at a later time. 
+              * The transaction manager should reissue xa_commit() at a later time.
               */
           }
       }

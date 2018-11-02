@@ -44,7 +44,7 @@ public class testConnectionClose {
           // killing connection by proxying the connection and then hitting the proxy
           System.out.println("Simulation of trouble on the connection by closing it");
           xaConnection.close();
-          
+
           try {
               xaResource.commit(xid, false);
           } catch (XAException xae) {
@@ -75,7 +75,7 @@ public class testConnectionClose {
                  System.out.println("Can't rollback xid: " + xidToRollback + " for reason " + e.getMessage());
                }
              }
-          }          
+          }
 
           xaConnection.close();
       }
