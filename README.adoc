@@ -22,10 +22,11 @@ NOTE: be sure to setup the `$LIBS` variable as said before
 === Possible parameters
 
 Parameters needs to be set *before* the name name of running class.
-It means `java -cp classes -Dhost=localhost testXA` works but
-`java -cp classes testXA -Dhost=localhost` does not.
+It means `java -cp classes -Dhost=localhost testRecover` works but
+`java -cp classes testRecover -Dhost=localhost` does not.
 
  * `-Ddbtype=postgresql`
+ * `-Durl=<jdbc/url>
  * `-Dhost=localhost`
  * `-Dport=1433`
  * `-Ddatabase=crashrec`
