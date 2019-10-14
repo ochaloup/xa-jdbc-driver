@@ -79,6 +79,10 @@ public class test2PC {
             }
         }
 
+        catch (XAException xae) {
+           System.err.println("XAException code: " + xae.errorCode + ", " + XAExceptionToString.getXAExceptionErrCodeAsString(xae.errorCode));
+            xae.printStackTrace();
+        }
         // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
